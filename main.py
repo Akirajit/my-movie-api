@@ -60,7 +60,12 @@ def message():
 
 @app.post("/login", tags=["auth"] ,status_code=200)
 def login(user: User):
-    return user
+    if user.email == "admin@gmail.com" and user.password=="admin":
+        token : str = create_token(user.dict())
+        return JSONResponse(status_code=200,content=token)
+    else:
+        return JSONResponse(status_code=401, content={"message: credenciales inválidas"})
+
 
 
 @app.get("/movies", tags=["movies"], status_code=200)
